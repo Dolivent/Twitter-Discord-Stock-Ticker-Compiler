@@ -11,10 +11,10 @@ def auth():
     load_dotenv()  # take environment variables from .env.
     return os.environ.get("ALPHAVANTAGE_API")
 
-def unprefixed_tickers(set_tweets):
+def unprefixed_tickers(socials_set):
     alpha_API = auth()
     ticker_universe = alphavantage_list(alpha_API) # Find intersection of Tickers List & Tweets List
-    unprefixed_tickers = set_tweets.intersection(ticker_universe)
+    unprefixed_tickers = socials_set.intersection(ticker_universe)
     unprefixed_tickers = list(unprefixed_tickers)
     unprefixed_tickers = (', '.join(unprefixed_tickers))
 

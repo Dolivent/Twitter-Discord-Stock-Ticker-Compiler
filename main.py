@@ -7,6 +7,8 @@ import datetime
 import sys
 import csv
 from dotenv import load_dotenv
+import guildsaver
+import subprocess
 
 tickers = {}
 
@@ -106,10 +108,54 @@ def main():
                 continue
             set_tweets.add(word.upper())
 
+    # Read discord text file
+
+    list_discord = []
+    now = datetime.datetime.now().strftime("%y%m%d")
+    compiled_title = "Z Discord compiled " + now + ".txt"
+    with open(compiled_title, 'r', encoding="utf-8") as rf:
+        list_discord.append(rf.read())
+
+    set_discord = set()
+    for text in list_discord:  # Extracts all words in tweets in set variable set_tweets
+        for word in text.split():
+            if word == "":
+                continue
+            set_discord.add(word.upper())
+
+    socials_set = set.union(set_tweets, set_discord)
+    socials_set = list(socials_set)
+    socials_set = (', '.join(socials_set)) # convert set to text
+
+    socials_set = str(socials_set).replace("\n", ",") #remove all symbols
+    socials_set = str(socials_set).replace(".", "")
+    socials_set = str(socials_set).replace("!", "")
+    socials_set = str(socials_set).replace("$", "")
+    socials_set = str(socials_set).replace("(", "")
+    socials_set = str(socials_set).replace(")", "")
+    socials_set = str(socials_set).replace("/", "")
+    socials_set = str(socials_set).replace("\\", "")
+    socials_set = str(socials_set).replace("%", "")
+    socials_set = str(socials_set).replace("-", "")
+    socials_set = str(socials_set).replace("@", "")
+    socials_set = str(socials_set).replace("?", "")
+    socials_set = str(socials_set).replace(":", "")
+    socials_set = str(socials_set).replace(";", "")
+    socials_set = str(socials_set).replace("\"", "")
+    socials_set = str(socials_set).replace("\'", "")
+    socials_set = str(socials_set).replace("#", "")
+    socials_set = str(socials_set).replace("]", "")
+    socials_set = str(socials_set).replace("[", "")
+    socials_set = str(socials_set).replace("+", "")
+    socials_set = str(socials_set).replace(",,", ",")
+
+    socials_set = socials_set.split(", ") # converts string to list
+    socials_set = set(socials_set)
+
     prefixed_tickers, most_mentioned_tickers = print_tickers()
 
-    unprefixed_tickers = Compiler.unprefixed_tickers(set_tweets) # Returns compiled string
-    compiled = "###Most Mentioned, " + most_mentioned_tickers + ", ###Other Tickers" + prefixed_tickers +unprefixed_tickers
+    unprefixed_tickers = Compiler.unprefixed_tickers(socials_set) # Returns compiled string
+    compiled = "###Most Mentioned, " + most_mentioned_tickers + ", ###Other Tickers" + prefixed_tickers + unprefixed_tickers
 
     now = datetime.datetime.now().strftime("%y%m%d %H")
     compiled_title = "ZZZ Watchlist " + now + ".txt"
@@ -118,4 +164,6 @@ def main():
     compiled_file.close()
 
 if __name__ == "__main__":
+    subprocess.call('python guildsaver.py', shell = True)
     main()
+
