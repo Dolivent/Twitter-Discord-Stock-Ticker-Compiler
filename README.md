@@ -13,7 +13,8 @@ GUILD_ID = 74833378 #https://support.discord.com/hc/en-us/articles/206346498-Whe
 TOKEN = "NDcyMTMzNjQz8xqOd-rsCo" #https://discordhelp.net/discord-token https://www.youtube.com/watch?v=tI1lzqzLQCs
 #the above are dummies. replace with your own keys and target twitter IDs (of feed you would like to extract from)```
 
+#Other
 Discord extractor forked from @moxniso (https://github.com/moxniso/guildsaver). Main changes are:
-1. Currently, the channels that I want to extract from are fixed, so they are hard coded in.
+1. Currently, the channels that I want to extract from are fixed, so they are hard coded in. Doesn't work if there are channels that you dont have access too. 
 2. Only pulls messages from the last 2 days (and tomorrow to adjust for different timezones)
 3. File destination directory that the compiled discord text file is moved to is hard coded
